@@ -24,24 +24,45 @@ nodo_t* inserisci_in_coda(nodo_t*, int);
 void inserisci_in_coda_no_return(nodo_t**, int);
 nodo_t* inserisci_in_coda_ricorsivo(nodo_t*, int);
 
+nodo_t* inserisci_dopo_elemento(nodo_t*, int, int);
+
+nodo_t* sostituisci_elemento_ricorsivo(nodo_t*, int, int);
+
+nodo_t* cancella_in_testa(nodo_t*);
+nodo_t* cancella_in_coda(nodo_t*);
+nodo_t* cancella_in_coda_ricorsiva(nodo_t*);
+
+nodo_t* cancella_dopo_elemento(nodo_t*, int);
+nodo_t* cancella_elemento(nodo_t*, int);
+nodo_t* cancella_elemento_ricorsivo(nodo_t*, int);
+
+nodo_t* cancella_ultimo_elemento_uguale(nodo_t*, int);
+nodo_t* cancella_in_testa(nodo_t*);
+
 int main(){
 
 	nodo_t *head = NULL;
 
+	nodo_t *cercato;
+
 	head = inserisci_in_coda(head, 4);
 	head = inserisci_in_coda(head, 5);
 	head = inserisci_in_coda(head, 6);
 	head = inserisci_in_coda(head, 4);
 	head = inserisci_in_coda(head, 5);
 	head = inserisci_in_coda(head, 6);
-	
 
-	visualizza_lista(head);
-	
-	//inserisci_in_coda_no_return(&head, 7);
+	printf("\nlunghezza lista: %d", lunghezza_lista(head));
 
-	//visualizza_lista(head);
 
+	head = sostituisci_elemento_ricorsivo(head, 6, 53);
+
+	printf("\nlunghezza lista: %d", lunghezza_lista(head));
+
+
+	head = cancella_elemento_ricorsivo(head, 53);
+
+	visualizza_lista_ricorsiva(head);
 
 	return 0;
 }
@@ -194,16 +215,18 @@ nodo_t* inserisci_in_coda(nodo_t* l, int num){
 				if(prec->next == NULL){
 
 					prec->next = tmp; //si mette in coda all'ultimo
+
 					flag--;
 
 				}			
 
 			}
 
+	}
 	}else{
 
-		printf("\nerrore nel malloc\n");
-	}
+			printf("\nerrore nel malloc\n");
+		}
 
 	return l;
 
@@ -279,6 +302,8 @@ nodo_t* inserisci_dopo_elemento(nodo_t* l, int cerc, int num){
 
 	nodo_t *tmp, *prec;
 
+	int flag=0;
+
 	tmp = malloc(sizeof(nodo_t));
 
 	if(tmp){
@@ -297,11 +322,11 @@ nodo_t* inserisci_dopo_elemento(nodo_t* l, int cerc, int num){
 
 				//si scorrono tutti gli elementi e ogni volta si controlla che prec->num non sia uguale a cerc
 
-				if (prec->num == cerc){
+				if (prec->num == cerc && flag == 0){ //flag può non sembrare necessaria ma se si rientra nell'if perchè c'è un altro elemento uguale si rompe la connessione della lista
 				
 					tmp->next = prec->next;
 					prec -> next = tmp;
-				
+					flag++;
 				}
 
 				
@@ -317,7 +342,7 @@ nodo_t* inserisci_dopo_elemento(nodo_t* l, int cerc, int num){
 	return l;
 }
 
-nodo_t* inserisci_dopo_elemento_ricorsivo(nodo_t* l, int cerc, int num){
+nodo_t* sostituisci_elemento_ricorsivo(nodo_t* l, int cerc, int num){
 
 	if(l == NULL || l->num == cerc){
 
@@ -325,7 +350,7 @@ nodo_t* inserisci_dopo_elemento_ricorsivo(nodo_t* l, int cerc, int num){
 
 	}
 
-	l->next = inserisci_dopo_elemento_ricorsivo(l->next, cerc, num);
+	l->next = sostituisci_elemento_ricorsivo(l->next, cerc, num);
 
 	return l;
 }
@@ -350,7 +375,7 @@ nodo_t* cancella_in_coda(nodo_t* l){
 
 	nodo_t *tmp, *prec;
 
-	if(l != NULL){
+	if(l->next == NULL){
 
 		free(l);
 
@@ -358,14 +383,20 @@ nodo_t* cancella_in_coda(nodo_t* l){
 
 	}else{
 
-		for(prec=l; prec->next->next != NULL; prec = prec->next ){
-			//si scorre fino al penultimo elemento
+		prec = l;
 
-			tmp = prec->next;
+		while(prec->next == NULL){
 
-			prec->next = NULL;
+			if(prec->next->next == NULL){
 
-			free(tmp);
+				tmp = prec->next;
+
+				prec->next = NULL;
+
+				free(tmp);
+
+			}
+
 
 		}
 
