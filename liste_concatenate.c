@@ -45,21 +45,16 @@ int main(){
 
 	nodo_t *cercato;
 
+	head = inserisci_in_coda(head, 1);
+	head = inserisci_in_coda(head, 2);
+	head = inserisci_in_coda(head, 3);
 	head = inserisci_in_coda(head, 4);
 	head = inserisci_in_coda(head, 5);
 	head = inserisci_in_coda(head, 6);
 	head = inserisci_in_coda(head, 7);
-	head = inserisci_in_coda(head, 5);
-	head = inserisci_in_coda(head, 2);
-	head = inserisci_in_coda(head, 4);
+
+	visualizza_lista(head);
 	
-	visualizza_lista(head);
-
-	inserisci_in_coda_no_return(&head, 9);
-
-	printf("\n\nora il secondo visualizza:");
-
-	visualizza_lista(head);
 
 	return 0;
 }
