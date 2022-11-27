@@ -48,20 +48,20 @@ int main(){
 	head = inserisci_in_coda(head, 4);
 	head = inserisci_in_coda(head, 5);
 	head = inserisci_in_coda(head, 6);
-	head = inserisci_in_coda(head, 4);
-	head = inserisci_in_coda(head, 5);
-	head = inserisci_in_coda(head, 6);
+	head = inserisci_in_coda(head, 7);
+	head = inserisci_in_coda(head, 8);
+	
+	
 
-	printf("\nlunghezza lista: %d", lunghezza_lista(head));
-
-
-	head = sostituisci_elemento_ricorsivo(head, 6, 53);
-
-	printf("\nlunghezza lista: %d", lunghezza_lista(head));
+	printf("Lista prima di eliminare: \n");	
+	visualizza_lista_ricorsiva(head);
 
 
-	head = cancella_elemento_ricorsivo(head, 53);
 
+	head = cancella_dopo_elemento(head, 5);
+	head = cancella_dopo_elemento(head, 8);
+
+	printf("\nLista DOPO di eliminare: \n");
 	visualizza_lista_ricorsiva(head);
 
 	return 0;
@@ -437,7 +437,7 @@ nodo_t* cancella_dopo_elemento(nodo_t* l, int cerc){
 
 	if(l->next != NULL ){
 
-		for(prec=l; prec->next != NULL && prec->num != cerc; prec=prec->next){
+		for(prec=l; prec->next != NULL; prec=prec->next){
 
 			if(prec->num == cerc){
 
