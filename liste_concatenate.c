@@ -53,18 +53,13 @@ int main(){
 	head = inserisci_in_coda(head, 2);
 	head = inserisci_in_coda(head, 4);
 	
-	
+	visualizza_lista(head);
 
-	printf("Lista prima di eliminare: \n");	
-	visualizza_lista_ricorsiva(head);
+	inserisci_in_coda_no_return(&head, 9);
 
+	printf("\n\nora il secondo visualizza:");
 
-	printf("\nSto per cancellare l'ultimo 5\n");
-
-	head = cancella_ultimo_elemento_uguale(head, 5);
-
-	printf("\nLista DOPO di eliminare: \n");
-	visualizza_lista_ricorsiva(head);
+	visualizza_lista(head);
 
 	return 0;
 }
@@ -237,53 +232,40 @@ nodo_t* inserisci_in_coda(nodo_t* l, int num){
 void inserisci_in_coda_no_return(nodo_t **l, int num){
 
 	nodo_t *tmp, *prec;
+	int flag=1;
 
 	tmp = malloc(sizeof(nodo_t));
 
 	if(tmp != NULL){
 
-		printf("b");
-
-		tmp->num = num;
+		tmp->num = num; //creazione nuovo elemento
 
 		tmp->next = NULL;
 
-		if(*l == NULL){
 
-			printf("c");
+		if(*l==NULL){		//se la lista è vuota inserisce in testa
 
-			*l=tmp;
+			*l = tmp;
 
 		}else{
 
-			printf("d");
+			for(prec=*l; flag == 1; prec=prec->next){ //si scorre tutta la lista
 
-			prec=*l;
+				if(prec->next == NULL){
 
-			/*
-			for(prec=*l; prec->next != NULL; prec=prec->next){
+					prec->next = tmp; //si mette in coda all'ultimo
 
-				prec->next = tmp;
+					flag--;
 
-				printf("a");
+				}			
+
 			}
 
-			*/
-
-			while(prec->next == NULL){
-
-				prec->next = tmp;
-
-				prec=prec->next;
-
-				printf("a");
-			}
-		}
-
+	}
 	}else{
 
-		printf("\nerrore nel malloc\n");
-	}
+			printf("\nerrore nel malloc\n");
+		}
 
 }
 
