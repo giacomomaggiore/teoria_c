@@ -49,7 +49,9 @@ int main(){
 	head = inserisci_in_coda(head, 5);
 	head = inserisci_in_coda(head, 6);
 	head = inserisci_in_coda(head, 7);
-	head = inserisci_in_coda(head, 8);
+	head = inserisci_in_coda(head, 5);
+	head = inserisci_in_coda(head, 2);
+	head = inserisci_in_coda(head, 4);
 	
 	
 
@@ -57,9 +59,9 @@ int main(){
 	visualizza_lista_ricorsiva(head);
 
 
+	printf("\nSto per cancellare l'ultimo 5\n");
 
-	head = cancella_dopo_elemento(head, 5);
-	head = cancella_dopo_elemento(head, 8);
+	head = cancella_ultimo_elemento_uguale(head, 5);
 
 	printf("\nLista DOPO di eliminare: \n");
 	visualizza_lista_ricorsiva(head);
@@ -515,9 +517,11 @@ nodo_t* cancella_elemento_ricorsivo(nodo_t* l, int n){
 
 nodo_t* cancella_ultimo_elemento_uguale(nodo_t* l, int n){
 
-	nodo_t *tmp, *prec1, *prec2;
+	nodo_t *tmp1, *tmp2, *prec1, *prec2;
 
-	tmp = malloc(sizeof(nodo_t));
+	tmp2 = malloc(sizeof(nodo_t));
+	tmp1 = malloc(sizeof(nodo_t));
+
 
 	if(l==NULL){ //se la lista è vuota
 
@@ -527,9 +531,9 @@ nodo_t* cancella_ultimo_elemento_uguale(nodo_t* l, int n){
 
 		if(l->num == n){
 		
-			tmp = l;
+			tmp2 = l;
 
-			free(tmp);
+			free(tmp2);
 			l = NULL;
 
 			return l;
@@ -539,27 +543,35 @@ nodo_t* cancella_ultimo_elemento_uguale(nodo_t* l, int n){
 	}
 
 	else if(l->next != NULL){
+		printf("\nLa lista ha più di un elemento");
 
 		prec1 = l;
 		prec2 = l->next;
 
 
-		while(prec2=l, prec2->next != NULL){
+		while(prec2->next != NULL){
 
+			printf("\nSto esaminando il %d", prec2->num);
 			if(prec2->num == n){
 
-				tmp = prec2;
+				printf("\nHo trovato l'elemento da eliminare, sono nell'if");
+				tmp2 = prec2; //tmp2 è l'elemento da eliminare
+				tmp1 = prec1; //tmp1 è l'elemento PRECEDENTE a quello da eliminare
 			}
 
 			prec1 = prec1->next;
 			prec2 = prec2->next;
 		}
 
-		prec1->next = prec2->next;
 
-		free(tmp);
+		printf("\nL'elemento da eliminare è: %d", tmp2->num);
+		tmp1->next = tmp2->next;
+		free(tmp2);
 		
+		tmp2 = NULL;
+
+		return l;
 	}
 
-	return l;
+	
 }
